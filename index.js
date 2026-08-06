@@ -1,10 +1,14 @@
 const mineflayer = require('mineflayer');
+const http = require('http');
+
+// Mở một server web nhỏ để Render chấp nhận cho chạy miễn phí
+http.createServer((req, res) => res.end('Bot is running!')).listen(process.env.PORT || 3000);
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'serverthunghiem-FT6U.aternos.me', // Thay IP server Aternos của bạn vào đây
-    port: 17086,                           // Mặc định là 25565
-    username: 'Bot_AFK_247'                // Tên của bot trong game
+    host: 'serverthunghiem-FT6U.aternos.me', 
+    port: 17086,                           
+    username: 'Bot_AFK_247'                
   });
 
   bot.on('login', () => {
