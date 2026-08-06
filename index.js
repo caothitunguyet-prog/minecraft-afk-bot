@@ -10,9 +10,9 @@ http.createServer((req, res) => {
   console.log(`Web server đang chạy trên port ${PORT}`);
 });
 
-// 2. Cấu hình Server
+// 2. Cấu hình Server theo đúng thông tin mới nhất từ Aternos
 const CONFIG = {
-  host: 'brooktrout.aternos.host',
+  host: 'serverthunghiem-FT6U.aternos.me',
   port: 17086,
   username: 'Bot_AFK_247',
   version: false
@@ -29,22 +29,19 @@ function createBot() {
     console.log(`==> Bot ${CONFIG.username} đã kết nối vào server thành công!`);
   });
 
-  // Tự động đăng nhập và bật chế độ chống AFK
   bot.on('spawn', () => {
     console.log('Bot đã xuất hiện trong game.');
     
-    // Tự động gửi lệnh đăng nhập
     setTimeout(() => {
       bot.chat(`/login ${BOT_PASSWORD}`);
     }, 1500);
 
-    // ANTI-AFK: Nhảy nhẹ và xoay nhìn xung quanh mỗi 15 giây để tránh bị kick timeout
+    // ANTI-AFK: Nhảy và xoay người mỗi 15 giây tránh bị kick
     setInterval(() => {
       if (bot && bot.entity) {
         bot.setControlState('jump', true);
         setTimeout(() => bot.setControlState('jump', false), 500);
         
-        // Tự xoay hướng nhìn ngẫu nhiên
         const yaw = Math.random() * Math.PI * 2;
         const pitch = (Math.random() - 0.5) * Math.PI / 2;
         bot.look(yaw, pitch, true);
@@ -52,14 +49,14 @@ function createBot() {
     }, 15000);
   });
 
-  // Tự động kết nối lại nếu bị ngắt
+  // Tự động kết nối lại sau 15 giây nếu mất kết nối
   bot.on('end', (reason) => {
-    console.log(`Bot bị ngắt kết nối (${reason}). Kết nối lại sau 10 giây...`);
-    setTimeout(createBot, 10000);
+    console.log(`Bot bị ngắt kết nối (${reason}). Thử kết nối lại sau 15 giây...`);
+    setTimeout(createBot, 15000);
   });
 
   bot.on('error', (err) => {
-    console.log(`Lỗi: ${err.message}`);
+    console.log(`Lỗi kết nối: ${err.message}`);
   });
 }
 
